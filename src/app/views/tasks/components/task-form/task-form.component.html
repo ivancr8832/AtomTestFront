@@ -1,0 +1,33 @@
+<p-dialog [header]="titleDialog" [modal]="true" [(visible)]="visible" [closable]="true" [style]="{ width: '25rem' }">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Title</label>
+      <input type="text" formControlName="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700">Date Created</label>
+      <input type="date" formControlName="dateCreated" [min]="currentDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+    </div>
+
+    <div class="mb-4 flex items-center">
+      <label class="mr-2 text-sm font-medium text-gray-700">Completed</label>
+      <p-inputSwitch formControlName="completed" />
+    </div>
+
+    <div class="flex justify-end mt-6 space-x-3">
+      <button type="button" (click)="onCancel()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none">Cancel</button>
+      <button
+        type="submit"
+        [disabled]="taskForm.invalid || isSubmited"
+        class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-indigo-300">
+        @if (isSubmited) {
+          <i class="pi pi-spin pi-spinner"></i>
+        } @else {
+          <i class="pi pi-save"></i>
+        }
+        {{ textButtonSubmit }}
+      </button>
+    </div>
+  </form>
+</p-dialog>

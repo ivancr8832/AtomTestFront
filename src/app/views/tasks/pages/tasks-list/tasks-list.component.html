@@ -1,0 +1,45 @@
+<app-task-action (refreshListChange)="onRefreshData($event)"></app-task-action>
+<p-table [value]="taskPage.items!" dataKey="value.id" [tableStyle]="{ 'min-width': '25rem' }" [paginator]="true" [rows]="5"
+[showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[rowsPerPageOptions]="[5, 10, 20]" [totalRecords]="taskPage.totalRecords || 0" [lazy]="true"
+(onLazyLoad)="loadData($event.first! / $event.rows! + 1, $event.rows!)" class="p-fluid">
+<ng-template pTemplate="header">
+  <tr>
+    <th>Title</th>
+    <th>Date Created</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+</ng-template>
+<ng-template pTemplate="body" let-task>
+  <tr>
+    <td>
+      <div class="flex align-items-center gap-3">
+        <span>{{ task.title }}</span>
+      </div>
+    </td>
+    <td>
+      <div class="flex align-items-center gap-3">
+        <span>{{ task.dateCreated | date:'yyyy/MM/dd' }}</span>
+      </div>
+    </td>
+    <td>
+      <div class="flex align-items-center gap-3">
+        <span
+        [ngClass]="task.completed ? 'px-4 py-2 text-white bg-green-500 rounded-full' : 'px-4 py-2 text-white bg-red-500 rounded-full'"
+        >{{ task.completed | labelCompleted }}</span>
+      </div>
+    </td>
+    <td class="flex gap-3">
+      <button (click)="onUpdateTask(task)" class="px-4 py-2 border border-blue-500 text-blue-500 hover:bg-blue-100 rounded-md mr-2">
+        <i class="pi pi-pen-to-square"></i>
+    </button>
+    <button (click)="onDeleteTask(task)" class="px-4 py-2 border border-red-500 text-red-500 hover:bg-red-100 rounded-md">
+      <i class="pi pi-trash"></i>
+    </button>
+    </td>
+  </tr>
+</ng-template>
+</p-table>
+<app-task-form (refreshListChange)="onRefreshData($event)"></app-task-form>
+<p-confirmDialog />
